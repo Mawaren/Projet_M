@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+
+
+*{
+    color:white;
+
+}
+
+.top-page {
+
+    display: flex;
+    background-color: midnightblue;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    height: 10vh;
+    font-weight: bolder;
+    text-align: center;
+
+
+}
+
+header.header2{
+
+    position: absolute;
+    right: 50px;
+
+}
+
+
+
+.container {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+
+    background-image:url('background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+
+
+}
+
+

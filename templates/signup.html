@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <h1>S'inscire</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="username">Nom d'utilisateur</label>
+            <input id="username" type="text" name="username">
+        </p>
+
+        <p>
+            <label for="password">Mot de passe</label>
+             <input id ='password' type="password" name="password">
+
+        </p>
+        <button type="submit">S'inscrire</button>
+    </form>

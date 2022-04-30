@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <meta charset="UTF-8">
+
+    <h1>Bienvenue Mr Galan </h1>
+
+
+
+
+</head>
+
+<body>
+
+
+    <a href="{% url 'histo'  %}">Ajouter àl'historique</a>
+
+    <div class="table">
+        {{ dt|safe }}
+        </div>
+    <div class="table">
+
+
+
+            {{ df|safe }}
+
+        </div>
+
+
+</body>

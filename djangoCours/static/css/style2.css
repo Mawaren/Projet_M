@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    border: 0;
+    font-family: 'Lato', sans-serif;
+
+}
+
+html, head {
+    align-items: center;
+    color: red;
+    border-collapse: collapse;
+    background-color: white;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.table {
+        align-items: center;
+
+        background-color: white;
+        height:300px;
+        border:3px solid black;
+        width: 100%;
+        color: black;
+        justify-content: center;
+
+        flex-direction: column;
+        overflow: scroll;
+
+    }

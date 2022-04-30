@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <title>ProjetDeCours</title>
+</head>
+
+<body>
+
+
+    <section class="top-page">
+        <header class="header">
+            <h1>CrypSoo</h1>
+            <h3>Gère ta crypto en toute simplicité</h3>
+             <img src="../djangoCours/static/css/Sorbonne.png" alt="Logo de MDN">
+
+        </header>
+         <header class="header2">
+        {% if not user.is_authenticated %}
+            <a href="{% url 'signup'  %}">Inscription</a>
+            <a href="{% url 'login'  %}">Connexion</a>
+
+         {% else %}
+            {{ user.username }}
+
+                <a href="{% url 'histo'  %}">Historique</a>
+                <a href="{% url 'logout'  %}">Déconnexion</a>
+
+          {% endif %}
+
+
+          </header>
+    </section>
+
+
+
+
+
+    <div class = 'container'>
+
+        <h1>Connecte toi !</h1>
+        <h2>Rentre ton adresse de Wallet</h2>
+        <h4>récupère toutes les informations pour suivre ton investissement</h4>
+
+         {% if  user.is_authenticated %}
+               <form method="GET">
+
+                <p>
+
+                    <label for="'adresse">adresse</label>
+                    <input id="'adresse" type="'text" name="adresse">
+                    <button type="submit">recupérer les infos</button>
+
+                </p>
+                 </form>
+
+
+        {% endif %}
+
+
+    </div>
+</body>
+</html>
+
