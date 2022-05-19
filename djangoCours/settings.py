@@ -124,6 +124,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "djangoCours/static/")
 ]
 
+APPEND_SLASH = False
 
 
 # Default primary key field type

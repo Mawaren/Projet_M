@@ -1,33 +1,56 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
-    <meta charset="UTF-8">
-
-    <h1>Bienvenue Mr Galan </h1>
+    <head>
+        {% load static %}
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
 
 
-
-</head>
-
-<body>
+        <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+        <meta charset="UTF-8">
 
 
-    <a href="{% url 'histo'  %}">Ajouter àl'historique</a>
 
-    <div class="table">
-        {{ dt|safe }}
+    </head>
+
+    <body>
+        <div class ='entete'>
+
+        <nav class="tete">
+                <h2> CrypSoo</h2>
+            <h3> Gère ta crypto en toute simplicité</h3>
+            <ul>
+
+                <li> <a href="{% url 'index'  %}"> Accueil </a> </li>
+                <li> <a href="{% url 'logout'  %}">Déconnexion</a> </li>
+            </ul>
+        </nav>
+
+
+        <div class ='logo'>
+            <a href="{% url 'index'  %}"> <img class = 'logoo' src = "{% static 'sorbonne.png' %}"> </a>
         </div>
-    <div class="table">
+
+    </div>
+
+    <h1>{{ user.username }} votre portefeuille crypto est de {{ total }}$  </h1>
+
+        <h3><a href="{% url 'histo'  %}">Ajouter à l'historique</a></h3>
+
+
+        <ul class="main">
+
+          <li>   <img  src="{{ imgdata }}">    </li>
+            <li>     <div class="table1">    {{ dt|safe }}  </div>     </li>
+            <li>     <div class="table2">    {{ df|safe }}  </div>     </li>
+
+
+        </ul>
+
+
+    </body>
 
 
 
-            {{ df|safe }}
-
-        </div>
-
-
-</body>

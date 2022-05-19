@@ -13,7 +13,7 @@ class Wallets(models.Model):
     USD_value = models.FloatField()
     balance = models.FloatField()
     prices = models.FloatField()
-
+    PdP = models.FloatField()
 
     def __str__(self):
         return self.user.username
@@ -26,6 +26,7 @@ class historiques(models.Model):
     USD_value = models.FloatField()
     balance = models.FloatField()
     prices = models.FloatField()
+    PdP = models.FloatField()
 
     def __str__(self):
         return self.user.username

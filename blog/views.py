@@ -1,6 +1,6 @@
 
 
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 from blog.models import Wallets
 from blog.models import historiques
@@ -9,7 +9,8 @@ from blog.models import historiques
 
 def histo(request):
     user = request.user
-
+    instance = historiques.objects.filter(user_id=user)
+    instance.delete()
 
     instance = Wallets.objects.values()
     for dico in instance:
@@ -18,24 +19,16 @@ def histo(request):
             pass
 
         else:
-            print(dico)
-            new_obj = historiques.objects.create(user=user, blockchains='eth', tokens=dico['tokens'],
+            new_obj = historiques.objects.create(user=user, blockchains=dico['blockchains'], tokens=dico['tokens'],
                                              USD_value=dico['USD_value'], balance=dico['balance'],
-                                             prices=dico['prices'])
+                                             prices=dico['prices'], PdP = dico['PdP'])
             new_obj.save()
 
+    return redirect('index')
 
 
 
 
-
-    return render(request, 'index.html')
-
-
-
-
-
-# Create your views here.`
 
 
 

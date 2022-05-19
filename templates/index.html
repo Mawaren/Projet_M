@@ -1,39 +1,47 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <meta charset="UTF-8">
-    <title>ProjetDeCours</title>
-</head>
-
-<body>
+    <head>
+        {% load static %}
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
 
-    <section class="top-page">
-        <header class="header">
-            <h1>CrypSoo</h1>
-            <h3>Gère ta crypto en toute simplicité</h3>
-             <img src="../djangoCours/static/css/Sorbonne.png" alt="Logo de MDN">
 
-        </header>
-         <header class="header2">
-        {% if not user.is_authenticated %}
-            <a href="{% url 'signup'  %}">Inscription</a>
-            <a href="{% url 'login'  %}">Connexion</a>
-
-         {% else %}
-            {{ user.username }}
-
-                <a href="{% url 'histo'  %}">Historique</a>
-                <a href="{% url 'logout'  %}">Déconnexion</a>
-
-          {% endif %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <meta charset="UTF-8">
+        <title>CrypSoo</title>
 
 
-          </header>
-    </section>
+    </head>
+
+         <body>
+        <div class ='entete'>
+
+        <nav class="tete">
+                <h2> CrypSoo</h2>
+            <h3> Gère ta crypto en toute simplicité</h3>
+            {% if not user.is_authenticated %}
+            <ul>
+
+                <li> <a href="{% url 'signup'  %}">Inscription</a> </a> </li>
+                <li> <a href="{% url 'login'  %}">Connexion</a>  </li>
+                {% else %}
+                     <li> <a href="{% url 'logout'  %}">Déconnexion</a> </a> </li>
+                    <li> <a href="{% url 'historique'  %}">Historique</a>  </li>
+            </ul>
+                      {% endif %}
+
+        </nav>
+
+
+        <div class ='logo'>
+            <a href="{% url 'index'  %}"> <img class = 'logoo' src = "{% static 'sorbonne.png' %}"> </a>
+        </div>
+
+    </div>
+
+
 
 
 
@@ -60,8 +68,8 @@
 
         {% endif %}
 
-
+    <div class = 'table' > {{ dj | safe }}  </div>
     </div>
+
 </body>
-</html>
 

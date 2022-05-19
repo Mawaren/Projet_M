@@ -11,7 +11,7 @@ body {
 }
 
 a{
-    color: red;
+    color: white;
 }
 
 .entete{
@@ -54,7 +54,7 @@ h1 {
 
 }
 
-.table1{
+.table{
     text-align: center;
    position: absolute;
      width: 500px;
@@ -64,12 +64,3 @@ h1 {
         overflow: scroll;
 }
 
-.table2{
-   text-align: center;
-   position: absolute;
-     width: 500px;
-    height: 500px;
-    right: 400px ;
-    top : 600px;
-        overflow: scroll;
-}

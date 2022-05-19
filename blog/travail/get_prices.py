@@ -1,9 +1,9 @@
 import pandas as pd
 from requests import Session
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 import sqlite3
-import time
+
 session = Session()
 
 today = datetime.today()
@@ -11,8 +11,7 @@ today = datetime.today()
 
 
 def get_prices():
-    #a = 0
-    #while a==0:
+
 
     conn = sqlite3.connect('/Users/marwanebelaid/djangoCours/db.sqlite3')
     curr = conn.cursor()
@@ -29,8 +28,8 @@ def get_prices():
     session.headers.update(headers)
     response4 = session.get(url4, params=parameters)
     price = (json.loads(response4.text))
-    price = pd.json_normalize(price, 'data').assign(**price['status'])
-    price = price[['symbol','quote.USD.price']]
+    price = pd.json_normalize(price, 'data').assign(**price['status']) #recopé d'internet pas trop compris
+    price = price[['symbol','quote.USD.price','quote.USD.market_cap']]
 
 
     price.to_sql('prices', con = conn, if_exists= 'replace')

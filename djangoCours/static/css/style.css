@@ -2,50 +2,84 @@
 
 
 
+
+
 *{
-    color:white;
+margin: 0;
+padding: 0;
+}
+
+
+body {
+    margin: 0;
+}
+
+a{
+    color: white;
+}
+
+.entete{
+
+    background-color: #063970;
+    color: white;
+}
+
+.tete li {
+    float: right;
+    margin-right: 50px ;
+    display: inline;
+    margin-left:30px;
+}
+
+.logo{
+
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
-.top-page {
+.logoo{
 
-    display: flex;
-    background-color: midnightblue;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    height: 10vh;
-    font-weight: bolder;
-    text-align: center;
-
-
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
 }
 
-header.header2{
 
-    position: absolute;
-    right: 50px;
 
-}
+
+
+
+
 
 
 
 .container {
+    text-align: center;
+    color: darkslategrey;
+    background-color: bisque;
     height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 2rem;
 
-    background-image:url('background.png');
+
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 
 
-
-
 }
 
-
+.table{
+    padding: 30px;
+     width: 820px;
+    height: 400px;
+    background-color: lightgrey;
+    overflow: scroll;
+}
