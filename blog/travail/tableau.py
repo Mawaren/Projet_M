@@ -4,7 +4,7 @@ import urllib
 
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import savefig
-
+import plotly.graph_objects as go
 
 def tableau(df):
 
@@ -37,19 +37,10 @@ class Creation_graph:
         return uri2
 
     def pie(self):
+        labels = self.df.iloc[:,0]
+        values = self.df.iloc[:,4]
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
 
-        sizes = self.df.iloc[:,4]
-        fig, ax1 = plt.subplots()
-        ax1.pie(sizes, labels=self.df["tokens"], autopct='%1.1f%%')
-        ax1.axis('equal')
-
-        plt.gcf()
-        plt.close()
+        return fig
 
 
-        fig.savefig(self.buf, format='png')
-        self.buf.seek(0)
-        string = base64.b64encode(self.buf.read())
-        uri = 'data:image/png;base64,' + urllib.parse.quote(string)
-
-        return uri

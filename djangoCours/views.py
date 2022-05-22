@@ -59,7 +59,7 @@ def index(request):
                 'total': total,
                 'df': df.to_html(),
                 'dt': dt.to_html(),
-                'imgdata': uri,
+                'imgdata': uri.to_html(),
             }
 
             return render(request, 'index-blog.html', context=context)

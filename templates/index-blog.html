@@ -34,7 +34,7 @@
 
     <section class='main_container'>
          <section class="container">
-            <img  src="{{ imgdata }}">
+                {{ imgdata|safe }}
             <div class="table1">    {{ dt|safe }}  </div>
         </section>
         <div class="table2">    {{ df|safe }}  </div>

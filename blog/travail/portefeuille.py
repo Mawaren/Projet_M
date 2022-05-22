@@ -7,6 +7,7 @@ from datetime import datetime
 import sqlite3
 
 
+import time
 
 '''Classe Portefeuille.
 on définit dans le init , la connexion au serveur sql, un dictionnaire contenant les différentes clefs API pour les 
@@ -157,16 +158,24 @@ class Portefeuille:
         eth = 0
 
         for key, value in self.blockchain.items():
+            counter = 0
+            start = datetime.now()
             for index in range(len(df)):
+
+                counter += 1
+                end = datetime.now()
+                s = (end-start).seconds
+                if counter == 5 and s < 1:
+                    time.sleep(0.5)
+                    counter = 0
+                    start = datetime.now()
+
                 if df['blockchains'][index] == key:
                     url2 = 'https://{}/api?module=account&action=tokenbalance&contractaddress={}' \
                            '&address={}&tag=latest&apikey={}' \
                         .format(key, df['address'][index], self.adresse, value)
 
-
                     response2 = self.session.get(url2)
-
-
                     if json.loads(response2.text)["message"] == "OK":
 
                         balance.append(json.loads(response2.text)['result'])
@@ -216,13 +225,6 @@ class Portefeuille:
                 df['balance'][index] = tokens2[df['tokens'][index]]
 
 
-        #for key,value in tokens2.items():
-            #for index, row in df.iterrows():
-                #if key ==  df['tokens'][index]:
-                    #df['balance'][index] == value
-
-
-
         df['tokens'] = df['tokens'].apply(lambda x: x.upper())
 
         pp = []
@@ -256,14 +258,14 @@ class Portefeuille:
 
 
         #df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
-        df = df[['tokens', 'USD_value','balance','prices','% du portefeuille']]
+        df = df[['tokens', 'USD_value','prices','balance','% du portefeuille']]
 
 
 
         self.curr.close()
         self.conn.close()
         df.drop_duplicates(subset='tokens', keep='last', inplace=True)
-        df = df[df["% du portefeuille"] > 1]
+        df = df[df["% du portefeuille"] > 1.1]
         df = df.reset_index()
         df.pop('index')
 

@@ -21,7 +21,7 @@ def historique(request):
         total = int(sum(dt['USD_value']))
 
         graph1 = Creation_graph(dt)
-        uri =  graph1.pie()
+        uri = graph1.pie()
 
         df = dt
         df = df.set_index('tokens')
@@ -36,7 +36,7 @@ def historique(request):
         context = {
             'a': a,
             'dt': dt.to_html(),
-            'imgdata': uri,
+            'imgdata': uri.to_html(),
             'total':total,
             'imgdata2':uri2
         }
