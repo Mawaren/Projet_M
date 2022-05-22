@@ -11,7 +11,7 @@ import sqlite3
 '''Classe Portefeuille.
 on définit dans le init , la connexion au serveur sql, un dictionnaire contenant les différentes clefs API pour les 
 différentes blockchains.
-Une vairable today pour obtenir la date d'aujourd'hui
+Une variable today pour obtenir la date d'aujourd'hui
 Une liste contenant les symboles des layers
 Une liste contenant les noms des layers'''
 
@@ -62,14 +62,17 @@ class Portefeuille:
                 self.histo.append((json.loads(response1.text)['result']))
 
                 for index in range(len(historique)):
-                    token.append(historique[index]['tokenSymbol'])
-                    address.append(historique[index]['contractAddress'])
-                    token_name.append(historique[index]['tokenName'])
-                    blockchains.append(x)
-                    if not historique[index]['tokenDecimal']:
-                        decimal.append(0)
+                    if '.io' in historique[index]['tokenName']:
+                        pass
                     else:
-                        decimal.append(float(historique[index]['tokenDecimal']))
+                        token.append(historique[index]['tokenSymbol'])
+                        address.append(historique[index]['contractAddress'])
+                        token_name.append(historique[index]['tokenName'])
+                        blockchains.append(x)
+                        if not historique[index]['tokenDecimal']:
+                            decimal.append(0)
+                        else:
+                            decimal.append(float(historique[index]['tokenDecimal']))
 
             #else:
                # continue à vérifier
@@ -99,24 +102,19 @@ class Portefeuille:
         value_received = []
         token_send = []
         token_received = []
-
         for x in self.histo:
-
             # index sont les élements des x
             for index in range(len(x)):
                 a = x[index].keys()
                 if 'value' in a:
-
-
                 # recuperation dans le dictionnaire json de historique_portefeuille des tokens envoyés et recus avec leur date de
                 # transactions
+
                     if x[index]['from'] == self.adresse:
 
                         token_send.append(x[index]['tokenSymbol'])
                         date.append(datetime.fromtimestamp(float(x[index]['timeStamp'])))
                         if not x[index]['tokenDecimal']:
-
-
                             value_send.append(float(x[index]['value']))
 
                         else:
@@ -127,7 +125,6 @@ class Portefeuille:
                         token_received.append(x[index]['tokenSymbol'])
 
                         if not x[index]['tokenDecimal']:
-
                             value_received.append(float(x[index]['value']))
                         else:
                             value_received.append(float(x[index]['value']) / 10 ** float(x[index]['tokenDecimal']))
@@ -143,7 +140,6 @@ class Portefeuille:
         transactions['token_received'] = transactions['token_received'].fillna('CEX/pool')
         transactions['value_send'] = transactions['value_send'].fillna(0)
         transactions['value_received'] = transactions['value_received'].fillna(0)
-
 
         return transactions, hist
 
@@ -208,6 +204,22 @@ class Portefeuille:
     def get_price(self):
 
         transactions, df = self.get_balance()
+        tokens2 = {}
+
+        for index, row in df.iterrows():
+
+            if df['tokens'][index] not in tokens2.keys():
+                tokens2[df['tokens'][index]] = df['balance'][index]
+            else:
+
+                tokens2[df['tokens'][index]] += df['balance'][index]
+                df['balance'][index] = tokens2[df['tokens'][index]]
+
+
+        #for key,value in tokens2.items():
+            #for index, row in df.iterrows():
+                #if key ==  df['tokens'][index]:
+                    #df['balance'][index] == value
 
 
 
@@ -228,7 +240,7 @@ class Portefeuille:
 
         df = df.merge( dj, how='inner', left_on='tokens', right_on='symbol')
 
-        df = df.drop_duplicates('prices') # a voir pourquoi
+
 
         # création de la valeur en USD des tokens que l'on détient puis grâce à cette valeur, de la part du token dans le
         # portefeuille
@@ -239,17 +251,21 @@ class Portefeuille:
             y = x / sum(df['USD_value']) * 100
             pp.append(y)
 
+
         df['% du portefeuille'] = pp
-        df = df[df["% du portefeuille"] > 1.1]
+
 
         #df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
         df = df[['tokens', 'USD_value','balance','prices','% du portefeuille']]
 
-        df= df.reset_index()
-        df.pop('index')
+
 
         self.curr.close()
         self.conn.close()
+        df.drop_duplicates(subset='tokens', keep='last', inplace=True)
+        df = df[df["% du portefeuille"] > 1]
+        df = df.reset_index()
+        df.pop('index')
 
         return transactions, df
 
