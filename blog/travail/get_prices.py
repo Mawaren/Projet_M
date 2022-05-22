@@ -1,20 +1,19 @@
 import pandas as pd
 from requests import Session
 import json
-from datetime import datetime
 import sqlite3
 
-session = Session()
 
-today = datetime.today()
+
+
 
 
 
 def get_prices():
+    session = Session()
 
+    conn = sqlite3.connect('db.sqlite3')
 
-    conn = sqlite3.connect('/Users/marwanebelaid/djangoCours/db.sqlite3')
-    curr = conn.cursor()
 
 
     url4 ='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=5000'
@@ -29,13 +28,14 @@ def get_prices():
     response4 = session.get(url4, params=parameters)
     price = (json.loads(response4.text))
     price = pd.json_normalize(price, 'data').assign(**price['status']) #recopé d'internet pas trop compris
+
     price = price[['symbol','quote.USD.price','quote.USD.market_cap']]
 
 
     price.to_sql('prices', con = conn, if_exists= 'replace')
     conn.commit()
-    curr.close()
-    conn.close()
-    #time.sleep(86400)
+
+
+
 
 get_prices()

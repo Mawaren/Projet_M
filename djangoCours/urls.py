@@ -14,11 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path
 from django.views.generic import RedirectView
 
 from blog.views import histo
-from djangoCours.views import index
+from djangoCours.views import index, prix
 from accounts.views import signup, logout_user, login_user
 from histo.views import historique
 
@@ -27,13 +27,14 @@ favicon_view = RedirectView.as_view(url='/static/sorbonne.png', permanent=True)
 
 urlpatterns = [
     path('', index, name = 'index'),
-
     path('admin/', admin.site.urls),
     path('signup/', signup, name='signup'),
     path('login/', login_user, name='login'),
     path('logout/',logout_user, name ='logout'),
-    path('/', histo, name='histo'),
     path('historique/', historique, name = 'historique'),
+    path('histo/', histo, name='histo'),
+    path('/', prix, name='prix'),
+
 
 
 ]

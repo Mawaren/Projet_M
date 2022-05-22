@@ -1,46 +1,49 @@
-import base64
-import io
-import urllib
 
 import pandas as pd
-from django.shortcuts import render
-from matplotlib import pyplot as plt
+from django.shortcuts import render, redirect
+
 from blog.models import historiques
+from blog.travail.tableau import tableau2, Creation_graph
 
 
 def historique(request):
+
     user = request.user
-
     qs = historiques.objects.select_related().filter(user_id=user)
-    q = qs.values('USD_value', 'balance', 'prices', 'tokens','PdP','blockchains')
-    dt = pd.DataFrame.from_records(q)
-    a  = dt['blockchains'][0]
 
-    dt.pop('blockchains')
+    q = qs.values('tokens', 'prices', 'USD_value', 'balance','PdP','blockchains')
 
-    total = int(sum(dt['USD_value']))
-    sizes = dt['PdP']
-    fig, ax1 = plt.subplots()
-    ax1.pie(sizes, labels=dt["tokens"], autopct='%1.1f%%')
-    ax1.axis('equal')
+    if q.exists():
+        dt = pd.DataFrame.from_records(q)
+        a = dt['blockchains'][0]
 
-    plt.gcf()
-    plt.close()
+        dt.pop('blockchains')
+        total = int(sum(dt['USD_value']))
 
-    buf = io.BytesIO()
-    fig.savefig(buf, format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
+        graph1 = Creation_graph(dt)
+        uri =  graph1.pie()
 
-    uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+        df = dt
+        df = df.set_index('tokens')
+        df.pop('prices')
+        df.pop('PdP')
 
-    context = {
-        'a': a,
-        'dt': dt.to_html(),
-        'imgdata': uri,
-        'total':total,
-    }
-    return render(request, 'historique.html', context=context)
+        graph2 = Creation_graph(df)
+        uri2 = graph2.plot()
+
+        dt = tableau2(dt)
+
+        context = {
+            'a': a,
+            'dt': dt.to_html(),
+            'imgdata': uri,
+            'total':total,
+            'imgdata2':uri2
+        }
+        return render(request, 'historique.html', context=context)
+    else:
+        return redirect('index')
+
 
 
 

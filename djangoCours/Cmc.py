@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+import seaborn as sns
 
 
 def import_data():
@@ -11,14 +12,21 @@ def import_data():
     curr.close()
     conn.close()
     dj = pd.DataFrame(sql_query, columns=['symbol', 'quote.USD.price','quote.USD.market_cap'])
-    dj.set_index('symbol', inplace=True)
+
 
     dj = dj.round(4)
 
     dj = dj.rename(columns= {'quote.USD.price': 'price', 'quote.USD.market_cap': 'Market_cap'})
 
-    print(dj)
     return dj
 
 
-import_data()
+
+def transform_data():
+    dj = import_data()
+
+    dj = dj.style.set_properties(**{'border': '1.3px solid green',
+                          'color': 'magenta'})
+
+    return dj
+

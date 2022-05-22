@@ -1,27 +1,26 @@
-import base64
-import io
-import urllib
+from datetime import datetime
 
-
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 import matplotlib
-from matplotlib import pyplot as plt
+
 
 from blog.models import Wallets
+from blog.travail.get_prices import get_prices
+
 from blog.travail.portefeuille import Portefeuille
-from djangoCours.Cmc import import_data
+from blog.travail.tableau import tableau, Creation_graph
+from djangoCours.Cmc import transform_data
 
 matplotlib.use('Agg')
 
-
-
-
 def index(request):
-    dj = import_data()
+    dj = transform_data()
 
     context1 = {
         'dj': dj.to_html()
     }
+
 
     if request.GET.keys():
         user = request.user
@@ -32,40 +31,30 @@ def index(request):
         for adresses in request.GET.values():
                 a = adresses
         if not a:
-            return render(request, 'index.html')
+
+            return render(request, 'index.html', context = context1)
 
         elif a[0] == '0' and a[1] == 'x':
 
             marwane = Portefeuille(a)
 
             df, dt = marwane.get_price()
-            i = 0
 
-            while i < len(dt):
+
+            for i in range(len(dt)):
                 new_obj = Wallets.objects.create(user = user, blockchains=a, tokens=dt['tokens'][i], USD_value = dt['USD_value'][i], balance=dt['balance'][i], prices = dt['prices'][i],
                                                  PdP = dt['% du portefeuille'][i])
                 new_obj.save()
-                i += 1
+
 
         if df.empty == False:
 
             total = int(sum(dt['USD_value']))
 
-            sizes = dt['% du portefeuille']
+            graph1 = Creation_graph(dt)
+            uri = graph1.pie()
 
-            fig, ax1 = plt.subplots()
-            ax1.pie(sizes, labels=dt["tokens"], autopct='%1.1f%%')
-            ax1.axis('equal')
-
-            plt.gcf()
-            plt.close()
-
-            buf = io.BytesIO()
-            fig.savefig(buf, format='png')
-            buf.seek(0)
-            string = base64.b64encode(buf.read())
-
-            uri = 'data:image/png;base64,' + urllib.parse.quote(string)
+            dt = tableau(dt)
 
             context = {
                 "a":a,
@@ -80,3 +69,7 @@ def index(request):
             return render(request, 'index.html', context= context1)
     return render(request, 'index.html', context= context1)
 
+def prix(request):
+    get_prices()
+
+    return redirect('index')

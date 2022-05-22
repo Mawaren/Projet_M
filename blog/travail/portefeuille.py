@@ -2,7 +2,7 @@
 import pandas as pd
 from requests import Session
 import json
-import matplotlib.pyplot as plt
+
 from datetime import datetime
 import sqlite3
 
@@ -18,8 +18,9 @@ Une liste contenant les noms des layers'''
 
 class Portefeuille:
     def __init__(self, adresse):
-        self.conn = sqlite3.connect('/Users/marwanebelaid/djangoCours/db.sqlite3')
+        self.conn = sqlite3.connect('db.sqlite3')
         self.curr = self.conn.cursor()
+
         self.session = Session()
         self.adresse = adresse
         self.blockchain = {'api.etherscan.com': 'MMW7FUW6EZ5YGSSINYR7NMCTDXV69XKKPF',
@@ -57,7 +58,9 @@ class Portefeuille:
 
             if response1.ok == True:
                 historique = (json.loads(response1.text)['result'])
+
                 self.histo.append((json.loads(response1.text)['result']))
+
                 for index in range(len(historique)):
                     token.append(historique[index]['tokenSymbol'])
                     address.append(historique[index]['contractAddress'])
@@ -68,9 +71,8 @@ class Portefeuille:
                     else:
                         decimal.append(float(historique[index]['tokenDecimal']))
 
-
-            else:
-                continue
+            #else:
+               # continue à vérifier
 
         # nettoyage des données récupérée
         token = list(map(lambda x: x.lower(), token))
@@ -225,7 +227,8 @@ class Portefeuille:
 
 
         df = df.merge( dj, how='inner', left_on='tokens', right_on='symbol')
-        df = df.drop_duplicates('prices')
+
+        df = df.drop_duplicates('prices') # a voir pourquoi
 
         # création de la valeur en USD des tokens que l'on détient puis grâce à cette valeur, de la part du token dans le
         # portefeuille
@@ -239,23 +242,18 @@ class Portefeuille:
         df['% du portefeuille'] = pp
         df = df[df["% du portefeuille"] > 1.1]
 
-        df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
+        #df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
         df = df[['tokens', 'USD_value','balance','prices','% du portefeuille']]
 
+        df= df.reset_index()
+        df.pop('index')
 
         self.curr.close()
         self.conn.close()
+
         return transactions, df
 
 
 
-
-
-
-
-
-
-
-
 marwane= Portefeuille('0xde23d846b7247c72944722e7d0a59258c8595a29')
-marwane.get_balance()
+marwane.get_price()

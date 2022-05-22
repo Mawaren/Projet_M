@@ -9,33 +9,32 @@
         <meta charset="UTF-8">
 
     </head>
+
     <body>
         <div class ='entete'>
 
-        <nav class="tete">
+            <div class="tete">
                 <h2> CrypSoo</h2>
-            <h3> Gère ta crypto en toute simplicité</h3>
+                <h3> Gère ta crypto en toute simplicité</h3>
+            </div>
+            <a href="{% url 'index'  %}"> <img class = 'logo' src = "{% static 'sorbonne.png' %}"> </a>
+
             <ul>
                 <li> <a href="{% url 'index'  %}"> Accueil </a> </li>
                 <li> <a href="{% url 'logout'  %}">Déconnexion</a> </li>
             </ul>
-        </nav>
 
-
-        <div class ='logo'>
-            <a href="{% url 'index'  %}"> <img class = 'logoo' src = "{% static 'sorbonne.png' %}"> </a>
         </div>
-
-    </div>
 
     <h1>{{ user.username }} votre portefeuille crypto est de {{ total }}$  </h1>
         <h1>adresse = {{ a }}</h1>
 
 
-        <ul class="main">
+   <section class="container">
 
-          <li>   <img  src="{{ imgdata }}">    </li>
-            <li>     <div class="table">    {{ dt|safe }}  </div>     </li>
+            <img  src="{{ imgdata }}">
+            <div class="table1">    {{ dt|safe }}  </div>
 
-        </ul>
+        </section>
+    <img class = 'img1' src="{{ imgdata2 }}">
     </body>
