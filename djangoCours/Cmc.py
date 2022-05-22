@@ -1,7 +1,10 @@
 import sqlite3
+
+import numpy as np
 import pandas as pd
 import seaborn as sns
-
+import plotly.graph_objects as go
+import plotly.express as px
 
 def import_data():
     conn = sqlite3.connect('/Users/marwanebelaid/djangoCours/db.sqlite3')
@@ -14,7 +17,9 @@ def import_data():
     dj = pd.DataFrame(sql_query, columns=['symbol', 'quote.USD.price','quote.USD.market_cap'])
 
 
-    dj = dj.round(4)
+
+
+    #dj.loc[:, 'quote.USD.market_cap'] = dj['quote.USD.market_cap'].map('{:,d}'.format)
 
     dj = dj.rename(columns= {'quote.USD.price': 'price', 'quote.USD.market_cap': 'Market_cap'})
 
@@ -23,10 +28,27 @@ def import_data():
 
 
 def transform_data():
-    dj = import_data()
+    df = import_data()
 
-    dj = dj.style.set_properties(**{'border': '1.3px solid green',
-                          'color': 'magenta'})
+    fig = go.Figure(data=[go.Table(
+        header=dict(
+            values=["Symbol", "Price", "Market_cap"],
+            font=dict(size=10),
+            align="left"
+        ),
+        cells=dict(
+            values=[df["symbol"], df["price"], df["Market_cap"]],
+            align="left"))
+    ])
 
-    return dj
+    return fig
+
+
+
+def ln(x):
+
+    return np.log(x)
+
+
+
 

@@ -67,7 +67,7 @@ a{
     text-align: center;
     color: darkslategrey;
 
-    background-color: bisque;
+    background-color: white;
     height: 90vh;
     display: flex;
     flex-direction: column;
@@ -83,22 +83,7 @@ a{
 }
 .container a{
 
-    color: darkslategrey;
-
-}
-.table{
-   text-align: center;
-
-    height: 50vh;
-    overflow: scroll;
-
-}
-.table th{
-     width: 70%;
+    color: black;
 
 }
 
-.table tr{
-     text-align: center!important;
-
-}

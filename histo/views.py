@@ -3,7 +3,7 @@ import pandas as pd
 from django.shortcuts import render, redirect
 
 from blog.models import historiques
-from blog.travail.tableau import tableau2, Creation_graph
+from blog.travail.tableau import Tableur, Creation_graph
 
 
 def historique(request):
@@ -20,7 +20,7 @@ def historique(request):
         dt.pop('blockchains')
         total = int(sum(dt['USD_value']))
 
-        graph1 = Creation_graph(dt)
+        graph1 = Creation_graph(dt['tokens'], dt['PdP'])
         uri = graph1.pie()
 
         df = dt
@@ -28,17 +28,18 @@ def historique(request):
         df.pop('prices')
         df.pop('PdP')
 
-        graph2 = Creation_graph(df)
-        uri2 = graph2.plot()
 
-        dt = tableau2(dt)
+        valeur = ["tokens", "prices", "USD_value",'balance','PdP']
+        table = Tableur(dt, valeur)
+        dt = table.tableau()
+
 
         context = {
             'a': a,
             'dt': dt.to_html(),
             'imgdata': uri.to_html(),
             'total':total,
-            'imgdata2':uri2
+            #'imgdata2':uri2
         }
         return render(request, 'historique.html', context=context)
     else:

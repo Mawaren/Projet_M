@@ -136,7 +136,7 @@ class Portefeuille:
         df_receive = pd.DataFrame({'date': dates, 'value_received': value_received, 'token_received': token_received})
 
         transactions = pd.merge(df_send, df_receive, on='date', how='outer')
-        transactions = transactions.set_index('date').sort_values(by=['date'], ascending=False)
+        transactions = transactions.sort_values(by=['date'], ascending=False)
         transactions['token_send'] = transactions['token_send'].fillna('CEX/pool')
         transactions['token_received'] = transactions['token_received'].fillna('CEX/pool')
         transactions['value_send'] = transactions['value_send'].fillna(0)
@@ -254,18 +254,18 @@ class Portefeuille:
             pp.append(y)
 
 
-        df['% du portefeuille'] = pp
+        df['PdP'] = pp
 
 
         #df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
-        df = df[['tokens', 'USD_value','prices','balance','% du portefeuille']]
+        df = df[['tokens', 'USD_value','prices','balance','PdP']]
 
 
 
         self.curr.close()
         self.conn.close()
         df.drop_duplicates(subset='tokens', keep='last', inplace=True)
-        df = df[df["% du portefeuille"] > 1.1]
+        df = df[df["PdP"] > 1.1]
         df = df.reset_index()
         df.pop('index')
 

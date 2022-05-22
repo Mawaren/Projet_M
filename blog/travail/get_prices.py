@@ -32,10 +32,12 @@ def get_prices():
     price = price[['symbol','quote.USD.price','quote.USD.market_cap']]
 
 
+
     price.to_sql('prices', con = conn, if_exists= 'replace')
     conn.commit()
 
-
+    #pas de fermeture de la connexion car sinon impossible de la réouvrir
+    # connexion auto-gérée par django ?
 
 
 get_prices()

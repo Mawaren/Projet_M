@@ -76,11 +76,11 @@ h1 {
 }
 
 
-.table1{
-    text-align: center;
-     width: 30em;
-    height: 100%;
-    overflow: scroll;
+.plot-container plotly{
+
+     width: 45em;
+    height: 45em;
+
 }
 
 

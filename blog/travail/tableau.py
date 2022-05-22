@@ -1,46 +1,55 @@
-import base64
+
 import io
-import urllib
 
-from matplotlib import pyplot as plt
-from matplotlib.pyplot import savefig
 import plotly.graph_objects as go
-
-def tableau(df):
-
-    df = df.style.bar(subset=['% du portefeuille'], color='#d65f5f').set_properties(**{'border': '1.3px solid green',
-                                                                                  'color': 'magenta'})
-
-    return df
+import plotly.express as px
 
 
-def tableau2(df):
+class Tableur():
 
-    df = df.style.bar(subset=['PdP'], color='#d65f5f').set_properties(**{'border': '1.3px solid green',
-                                                                                  'color': 'green'})
+    def __init__(self, df, valeur):
+        self.df = df
+        self.valeur = valeur
+        self.value = []
 
-    return df
+    def tableau(self):
+
+        for label, content in self.df.items():
+            self.value.append(self.df[label])
+
+        fig = go.Figure(data=[go.Table(
+            header=dict(
+                values=self.valeur,
+                font=dict(size=10),
+                align="left"
+            ),
+            cells=dict(
+                values=self.value,
+                align="left"))
+        ])
+
+        return fig
+
 
 
 class Creation_graph:
-    def __init__(self, df):
+    def __init__(self, label, value):
         self.buf = io.BytesIO()
-        self.df = df
 
-    def plot(self):
-        self.df.plot.bar(rot=0)
-        savefig(self.buf, format='png')
-        self.buf.seek(0)
-        string = base64.b64encode(self.buf.read())
-        uri2 = 'data:image/png;base64,' + urllib.parse.quote(string)
+        self.label = label
+        self.value = value
 
-        return uri2
+
 
     def pie(self):
-        labels = self.df.iloc[:,0]
-        values = self.df.iloc[:,4]
-        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
 
+        fig = go.Figure(data=[go.Pie(labels=self.label, values=self.value)])
+
+        return fig
+
+    def t_series(self):
+
+        fig = px.line(self.label, x='date', y=self.value)
         return fig
 
 

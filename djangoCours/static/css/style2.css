@@ -93,27 +93,6 @@ h3 a{
 }
 
 
-.table1{
-    text-align: center;
-     width: 30em;
-    height: 100%;
-    overflow: scroll;
-}
 
 
-.table2{
-   text-align: center;
 
-    height: 30vh;
-    overflow: scroll;
-
-}
-.table2 th{
-     width: 13em;
-
-}
-
-.table2 tr{
-     text-align: center!important;
-
-}
