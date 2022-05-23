@@ -17,7 +17,7 @@ Une liste contenant les noms des layers'''
 class Portefeuille:
     def __init__(self, adresse):
         self.conn = sqlite3.connect('db.sqlite3')
-        self.curr = self.conn.cursor()
+
 
         self.session = Session()
         self.adresse = adresse
@@ -33,9 +33,7 @@ class Portefeuille:
         self.layer_name = ['Ethereum', 'Fantom', 'Matic', 'Bnb', 'Ethereum', 'Avalanche', 'Gnosis']
 
         self.today = datetime.today().strftime('%Y-%m-%d')
-
-        # créer une fonction pour vérifier qu'une adresse crypto existe avec un try dans la view
-
+        self.histo = []
 
     def get_histo(self):
         token_name = []
@@ -44,18 +42,16 @@ class Portefeuille:
         decimal = []
         blockchains = []
         ad = [self.adresse, self.adresse, self.adresse, self.adresse, self.adresse, self.adresse, self.adresse]
-        self.histo = []
-
         dec = [18, 18, 18, 18, 18, 18, 18]
+
         for x, y in self.blockchain.items():
             url1 = 'https://{}/api?module=account&action=tokentx&address={}&startblock={}&endblock={}' \
                    '&sort=asc&apikey={}' \
                 .format(x, self.adresse, str(0), str(self.today), y)
 
             response1 = self.session.get(url1)
-
-
-            if response1.ok == True:
+            
+            if response1.ok:
 
                 historique = (json.loads(response1.text)['result'])
 
@@ -73,8 +69,6 @@ class Portefeuille:
                             decimal.append(0)
                         else:
                             decimal.append(float(historique[index]['tokenDecimal']))
-
-
 
         # nettoyage des données récupérée
         token = list(map(lambda x: x.lower(), token))
@@ -148,10 +142,10 @@ class Portefeuille:
 # Il faut donc itérer sur chcaune des apis, pour d'abord récuperer la balance du token de gouvernance ( ex: eth)
 # Puis pour récuperer la balance de chacun des tokens sur cette blockchain, on fait une deuxième boucle dans le dataframe
 # et a chaque fois que la clef du dictionnaire match avec la blockchain on cherche la balance.
+
     def get_balance(self):
 
         transactions, df = self.df_transactions()
-
         balance = []
         eth = 0
 
@@ -180,9 +174,7 @@ class Portefeuille:
                     else:
                         balance.append('0')
 
-
         for key, value in self.blockchain.items():
-
             url3 = 'https://{}/api?module=account&action=balance&address={}&tag=latest&apikey={}' \
                 .format(key, self.adresse, value)
             response3 = self.session.get(url3)
@@ -196,10 +188,8 @@ class Portefeuille:
             else:
                 balance.append('0')
 
-
         for index, value in enumerate(balance):
             balance[index] = float(value) / (10 ** (df['decimal'][index]))
-
 
         balance[-6] += float(eth) / (10 ** 18)
         df['balance'] = balance
@@ -250,16 +240,10 @@ class Portefeuille:
             y = (x / sum(df['USD_value'])) * 100
             pp.append(y)
 
-
         df['PdP'] = pp
 
-
-        #df = df.set_index('blockchains').sort_values(by=['blockchains'], ascending=False)
         df = df[['tokens', 'USD_value','prices','balance','PdP']]
 
-
-
-        self.curr.close()
         self.conn.close()
 
         df = df[df["PdP"] > 1.1]
@@ -267,8 +251,3 @@ class Portefeuille:
         df.pop('index')
 
         return transactions, df
-
-
-
-#marwane= Portefeuille('0xde23d846b7247c72944722e7d0a59258c8595a29')
-#marwane.get_price()

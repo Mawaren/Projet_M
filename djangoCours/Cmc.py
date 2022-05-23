@@ -25,8 +25,6 @@ def transform(df):
     transactions = []
 
     for index in range(len(df)):
-        #if df['value_send'][index] != 0:
-            #transactions.append('swap')
 
         if df['value_received'][index] == 0:
             transactions.append('send')

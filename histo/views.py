@@ -19,8 +19,10 @@ def historique(request):
         total = int(sum(dt['USD_value']))
 
         graph1 = Creation_graph(dt, dt['tokens'], dt['PdP'])
+        graph2 = Creation_graph(dt, dt['tokens'], dt['PdP'], title='Part des différents tokens dans le Portefeuille',
+                                xaxis_title='Prix', yaxis_title='Valeur du token dans le Portefeuille (USD)')
         uri = graph1.pie()
-        uri2 = graph1.bubbles(dt['prices'],dt['USD_value'])
+        uri2 = graph2.bubbles(dt['prices'],dt['USD_value'])
         df = dt
         df = df.set_index('tokens')
         df.pop('prices')

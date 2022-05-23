@@ -34,13 +34,19 @@
 
     <section class='main_container'>
          <section class="container">
+                {{ imgdata2|safe }}
                 {{ imgdata|safe }}
-            <div class="table1">    {{ dt|safe }}  </div>
+
         </section>
-        <div class="table2">    {{ df|safe }}  </div>
+
+         <section class="container2">
+         <div class="table1">    {{ df|safe }}  </div>
+        <div class="table2">    {{ dt|safe }}  </div>
+
+         </section>
     </section>
 
-         {{ imgdata2|safe }}
+
 
     </body>
 

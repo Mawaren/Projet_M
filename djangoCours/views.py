@@ -50,7 +50,7 @@ def index(request):
 
             total = int(sum(dt['USD_value']))
 
-            graph1 = Creation_graph(dt, dt['tokens'], dt['PdP'])
+            graph1 = Creation_graph(dt, dt['tokens'], dt['PdP'], title='Composition du Portefeuille')
             uri = graph1.pie()
 
             valeur3 = ["date", "token_send", "value_send", 'value_received', 'token_received']
