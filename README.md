@@ -10,7 +10,9 @@ Description du projet :
 1. Utilisation des apis des principales blockchains de cryptomonnaie pour requêter les données nécessaires à la construction de nos dataframes. (Clés en annexe)
 
 2. Nos dataframes principaux sont :
+
 • L’historique de transaction d’un portefeuille
+
 • Composition du portefeuille
 
 3. Nous utilisons les dataframes afin de matérialiser nos données à travers différents tableaux et graphiques.
