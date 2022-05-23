@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%miuizdb&01$d2aof8#!wz50_$y66n=6*nb9fkc3n*-opn4)sq'
+SECRET_KEY ='django-insecure-%miuizdb&01$d2aof8#!wz50_$y66n=6*nb9fkc3n*-opn4)sq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -54,7 +54,7 @@ class Creation_graph:
         return fig
 
     def t_series(self):
-        fig = px.line(self.label, x='date', y=self.value)
+        fig = px.scatter(self.df, x=self.label, y=self.value)
         fig.update_layout(
             title=self.title,
             xaxis_title=self.xaxis_title,

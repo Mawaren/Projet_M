@@ -65,13 +65,15 @@ a{
 h1 {
 
     text-align: center;
-    color: darkslategrey;
+    color: darkblue;
 
 }
+h3 {
+     text-align: center;
 
+}
 h3 a{
-    display: flex;
-    align-items: center;
+
    color: darkblue!important;
 
 }

@@ -1,7 +1,11 @@
 import pandas as pd
+from decouple import config
 from requests import Session
 import json
 import sqlite3
+
+
+
 
 
 def get_prices():
@@ -15,7 +19,7 @@ def get_prices():
     }
     headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '02cc6aa0-8a27-4e7d-b2e3-bd68c838dd89'
+        'X-CMC_PRO_API_KEY': config('CMCKEY')
     }
     session.headers.update(headers)
     response4 = session.get(url4, params=parameters)
@@ -32,3 +36,4 @@ def get_prices():
     # connexion auto-gérée par django ?
 
 
+get_prices()

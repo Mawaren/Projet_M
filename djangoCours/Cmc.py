@@ -1,7 +1,7 @@
 import sqlite3
 import numpy as np
 import pandas as pd
-
+import datetime
 
 def import_data():
     conn = sqlite3.connect('/Users/marwanebelaid/djangoCours/db.sqlite3')
@@ -20,10 +20,22 @@ def import_data():
     return dj
 
 
-def ln(x):
+def transform(df):
 
-    return np.log(x)
+    transactions = []
+
+    for index in range(len(df)):
+        #if df['value_send'][index] != 0:
+            #transactions.append('swap')
+
+        if df['value_received'][index] == 0:
+            transactions.append('send')
+
+        elif df['value_send'][index] == 0:
+            transactions.append('received')
+
+        else:
+            transactions.append('swap')
 
 
-
-
+    return transactions

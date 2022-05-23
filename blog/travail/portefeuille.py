@@ -1,4 +1,4 @@
-
+from decouple import config
 import pandas as pd
 from requests import Session
 import json
@@ -21,13 +21,13 @@ class Portefeuille:
 
         self.session = Session()
         self.adresse = adresse
-        self.blockchain = {'api.etherscan.com': 'MMW7FUW6EZ5YGSSINYR7NMCTDXV69XKKPF',
-                           'api.ftmscan.com': '46NU3E7MB8EUBMWACBGT3B3KBK4ZS2GJFC',
-                           'api.polygonscan.com': 'RB4ACXDV6HPNFUF38G8QF65BIIJXMDWMWF',
-                           'api.bscscan.com': 'MPSX84G1YFA87FAD8N4QVAB1GFE6DU8SM5',
-                           'api.arbiscan.io': 'VC2I8ZW7QH4HCX39WWFEF5P2GRH3BQ2C7H',
-                           'api.snowtrace.io': 'IM4CBYMSZPP2YD8NWTSZ3QRP14SGXTP4K7',
-                           'blockscout.com/xdai/mainnet': ''}
+        self.blockchain = {'api.etherscan.com':config('eth'),
+                           'api.ftmscan.com':config('ftm'),
+                           'api.polygonscan.com':config('matic'),
+                           'api.bscscan.com':config('bsc'),
+                           'api.arbiscan.io':config('arbi'),
+                           'api.snowtrace.io':config('avax'),
+                           'blockscout.com/xdai/mainnet':config('gno')}
 
         self.layer = ['eth', 'ftm', 'matic', 'bnb', 'eth', 'avax', 'gno']
         self.layer_name = ['Ethereum', 'Fantom', 'Matic', 'Bnb', 'Ethereum', 'Avalanche', 'Gnosis']
@@ -45,6 +45,7 @@ class Portefeuille:
         blockchains = []
         ad = [self.adresse, self.adresse, self.adresse, self.adresse, self.adresse, self.adresse, self.adresse]
         self.histo = []
+
         dec = [18, 18, 18, 18, 18, 18, 18]
         for x, y in self.blockchain.items():
             url1 = 'https://{}/api?module=account&action=tokentx&address={}&startblock={}&endblock={}' \
@@ -55,6 +56,7 @@ class Portefeuille:
 
 
             if response1.ok == True:
+
                 historique = (json.loads(response1.text)['result'])
 
                 self.histo.append((json.loads(response1.text)['result']))
@@ -243,7 +245,7 @@ class Portefeuille:
         # portefeuille
         df.drop_duplicates(subset='tokens', keep='last', inplace=True)
         df['USD_value'] = df['balance'] * df['prices']
-        print(sum(df['USD_value']))
+
         for x in df['USD_value']:
             y = (x / sum(df['USD_value'])) * 100
             pp.append(y)
@@ -260,7 +262,7 @@ class Portefeuille:
         self.curr.close()
         self.conn.close()
 
-        #df = df[df["PdP"] > 1.1]
+        df = df[df["PdP"] > 1.1]
         df = df.reset_index()
         df.pop('index')
 

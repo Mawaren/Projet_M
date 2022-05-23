@@ -3,7 +3,7 @@ from blog.models import Wallets
 from blog.travail.get_prices import get_prices
 from blog.travail.portefeuille import Portefeuille
 from blog.travail.tableau import Tableur, Creation_graph
-from djangoCours.Cmc import import_data, ln
+from djangoCours.Cmc import import_data, transform
 
 
 def index(request):
@@ -61,8 +61,10 @@ def index(request):
             table2 = Tableur(dt, valeur2)
             dt_img = table2.tableau()
 
-            df['value_send'] = df['value_send'].apply(ln)
-            ts = Creation_graph(df, df, 'value_send')
+            transac = transform(df)
+
+            ts = Creation_graph(df, df['date'], transac, title='Activité du portefeuille', xaxis_title='Date',
+                                yaxis_title= "Type")
             uri2 = ts.t_series()
 
             context = {
