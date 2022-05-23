@@ -27,7 +27,7 @@ a{
 .entete > ul {
 
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     min-width: 15vw;
     list-style: none;
@@ -42,10 +42,8 @@ a{
 
 .logo{
     justify-content: center;
-
     display: flex;
     align-items: center;
-
     width: 5em;
     height: 5em;
 
@@ -62,9 +60,13 @@ a{
 
 h1 {
     text-align: center;
-    color: darkslategrey;
+    color: #063970;
 }
+h3{
+     text-align: center;
+    color: #063970;
 
+}
 
 .container{
 
@@ -92,3 +94,4 @@ h1 {
 
 
 }
+

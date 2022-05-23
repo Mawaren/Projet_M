@@ -1,10 +1,6 @@
-
-
 from django.shortcuts import redirect
-
 from blog.models import Wallets
 from blog.models import historiques
-
 
 
 def histo(request):
@@ -20,15 +16,8 @@ def histo(request):
 
         else:
             new_obj = historiques.objects.create(user=user, blockchains=dico['blockchains'], tokens=dico['tokens'],
-                                             USD_value=dico['USD_value'], balance=dico['balance'],
-                                             prices=dico['prices'], PdP = dico['PdP'])
+                                                 USD_value=dico['USD_value'], balance=dico['balance'],
+                                                 prices=dico['prices'], PdP=dico['PdP'])
             new_obj.save()
 
     return redirect('index')
-
-
-
-
-
-
-

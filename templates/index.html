@@ -5,13 +5,9 @@
     <head>
         {% load static %}
         <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-
-
-
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <meta charset="UTF-8">
         <title>CrypSoo</title>
-
 
     </head>
 
@@ -37,13 +33,14 @@
         </div>
 
 
-    <div class = 'container'>
+    <section class = 'container'>
 
-        <h1>Connecte toi !</h1>
-        <h2>Rentre ton adresse de Wallet</h2>
-        <h4>récupère toutes les informations pour suivre ton investissement</h4>
+        <h1>Bienvenue chez CrypSoo !</h1>
+
 
          {% if  user.is_authenticated %}
+             <h2>Rentre ton adresse de Wallet</h2>
+            <h4>récupère toutes les informations pour suivre ton investissement</h4>
                <form method="GET">
 
                 <p>
@@ -57,12 +54,14 @@
 
 
         {% endif %}
+        <ul class = dsd>
 
-    <div class = 'table' > {{ dj | safe }}  </div>
+           <li> {{ graph1 | safe }}   </li>
+            <li>  {{ graph2 | safe }}  </li>
 
-    <h3><a href="{% url 'prix'  %}">Actualiser les prix</a></h3>
-
-    </div>
+        </ul>
+        <h3><a href="{% url 'prix'  %}">Actualiser les prix</a></h3>
+    </section>
 
 </body>
 

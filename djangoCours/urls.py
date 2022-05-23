@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import RedirectView
-
 from blog.views import histo
 from djangoCours.views import index, prix
 from accounts.views import signup, logout_user, login_user
@@ -34,7 +33,4 @@ urlpatterns = [
     path('historique/', historique, name = 'historique'),
     path('histo/', histo, name='histo'),
     path('/', prix, name='prix'),
-
-
-
 ]

@@ -2,11 +2,8 @@
 import pandas as pd
 from requests import Session
 import json
-
 from datetime import datetime
 import sqlite3
-
-
 import time
 
 '''Classe Portefeuille.
@@ -75,8 +72,7 @@ class Portefeuille:
                         else:
                             decimal.append(float(historique[index]['tokenDecimal']))
 
-            #else:
-               # continue à vérifier
+
 
         # nettoyage des données récupérée
         token = list(map(lambda x: x.lower(), token))
@@ -220,9 +216,8 @@ class Portefeuille:
             if df['tokens'][index] not in tokens2.keys():
                 tokens2[df['tokens'][index]] = df['balance'][index]
             else:
-
                 tokens2[df['tokens'][index]] += df['balance'][index]
-                df['balance'][index] = tokens2[df['tokens'][index]]
+                df.loc[[index],['balance']] = tokens2[df['tokens'][index]]
 
 
         df['tokens'] = df['tokens'].apply(lambda x: x.upper())
@@ -246,11 +241,11 @@ class Portefeuille:
 
         # création de la valeur en USD des tokens que l'on détient puis grâce à cette valeur, de la part du token dans le
         # portefeuille
-
+        df.drop_duplicates(subset='tokens', keep='last', inplace=True)
         df['USD_value'] = df['balance'] * df['prices']
-
+        print(sum(df['USD_value']))
         for x in df['USD_value']:
-            y = x / sum(df['USD_value']) * 100
+            y = (x / sum(df['USD_value'])) * 100
             pp.append(y)
 
 
@@ -264,8 +259,8 @@ class Portefeuille:
 
         self.curr.close()
         self.conn.close()
-        df.drop_duplicates(subset='tokens', keep='last', inplace=True)
-        df = df[df["PdP"] > 1.1]
+
+        #df = df[df["PdP"] > 1.1]
         df = df.reset_index()
         df.pop('index')
 
@@ -273,5 +268,5 @@ class Portefeuille:
 
 
 
-marwane= Portefeuille('0xde23d846b7247c72944722e7d0a59258c8595a29')
-marwane.get_price()
+#marwane= Portefeuille('0xde23d846b7247c72944722e7d0a59258c8595a29')
+#marwane.get_price()

@@ -1,25 +1,25 @@
-import numpy as np
 from django.shortcuts import render, redirect
-
-
-
 from blog.models import Wallets
 from blog.travail.get_prices import get_prices
-
 from blog.travail.portefeuille import Portefeuille
 from blog.travail.tableau import Tableur, Creation_graph
 from djangoCours.Cmc import import_data, ln
 
 
 def index(request):
-    valeur = ["Symbol", "Price", "Market_cap"]
+    valeur = ["Tokens", "Price", "Market_cap"]
     dj = import_data()
-    table = Tableur(dj,valeur)
-    dj = table.tableau()
-    context1 = {
-        'dj': dj.to_html()
-    }
+    table = Tableur(dj, valeur,title='Prix et Capitalisations des Cryptomonnaies')
+    graph1 = table.tableau()
+    dj = dj[:30]
+    graph2 = Creation_graph(dj, dj['tokens'], dj['Market_cap'], title='Top 30 capitalisations', xaxis_title='Tokens'
+                            , yaxis_title='Market_cap')
+    graph2 = graph2.histogramme()
 
+    context1 = {
+        'graph1': graph1.to_html(),
+        'graph2': graph2.to_html()
+    }
 
     if request.GET.keys():
         user = request.user
@@ -28,10 +28,10 @@ def index(request):
         instance.delete()
 
         for adresses in request.GET.values():
-                a = adresses
+            a = adresses
         if not a:
 
-            return render(request, 'index.html', context = context1)
+            return render(request, 'index.html', context=context1)
 
         elif a[0] == '0' and a[1] == 'x':
 
@@ -39,20 +39,19 @@ def index(request):
 
             df, dt = marwane.get_price()
 
-
             for i in range(len(dt)):
-                new_obj = Wallets.objects.create(user = user, blockchains=a, tokens=dt['tokens'][i], USD_value = dt['USD_value'][i], balance=dt['balance'][i], prices = dt['prices'][i],
-                                                 PdP = dt['PdP'][i])
+                new_obj = Wallets.objects.create(user=user, blockchains=a, tokens=dt['tokens'][i],
+                                                 USD_value=dt['USD_value'][i], balance=dt['balance'][i],
+                                                 prices=dt['prices'][i],
+                                                 PdP=dt['PdP'][i])
                 new_obj.save()
 
-
-        if df.empty == False:
+        if not df.empty:
 
             total = int(sum(dt['USD_value']))
 
-            graph1 = Creation_graph(dt['tokens'], dt['PdP'])
+            graph1 = Creation_graph(dt, dt['tokens'], dt['PdP'])
             uri = graph1.pie()
-
 
             valeur3 = ["date", "token_send", "value_send", 'value_received', 'token_received']
             table = Tableur(df, valeur3)
@@ -63,11 +62,11 @@ def index(request):
             dt_img = table2.tableau()
 
             df['value_send'] = df['value_send'].apply(ln)
-            ts = Creation_graph(df,'value_send')
+            ts = Creation_graph(df, df, 'value_send')
             uri2 = ts.t_series()
 
             context = {
-                "a":a,
+                "a": a,
                 'total': total,
                 'df': df_img.to_html(),
                 'dt': dt_img.to_html(),
@@ -77,8 +76,9 @@ def index(request):
 
             return render(request, 'index-blog.html', context=context)
         else:
-            return render(request, 'index.html', context= context1)
-    return render(request, 'index.html', context= context1)
+            return render(request, 'index.html', context=context1)
+    return render(request, 'index.html', context=context1)
+
 
 def prix(request):
     get_prices()

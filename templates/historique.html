@@ -27,7 +27,7 @@
         </div>
 
     <h1>{{ user.username }} votre portefeuille crypto est de {{ total }}$  </h1>
-        <h1>adresse = {{ a }}</h1>
+        <h3>{{ a }}</h3>
 
 
    <section class="container">
@@ -36,5 +36,5 @@
             <div class="table1">    {{ dt|safe }}  </div>
 
         </section>
-    <img class = 'img1' src="{{ imgdata2 }}">
+        {{ imgdata2|safe }}
     </body>

@@ -27,7 +27,7 @@ a{
 .entete > ul {
 
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     min-width: 15vw;
     list-style: none;
