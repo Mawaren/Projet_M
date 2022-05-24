@@ -66,8 +66,6 @@ a{
 .container {
     text-align: center;
     color: #063970;
-
-
     height: 70vh;
     display: flex;
     flex-direction: column;
