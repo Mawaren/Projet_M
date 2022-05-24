@@ -50,7 +50,7 @@ class Creation_graph:
             title=self.title,
             xaxis_title=self.xaxis_title,
             yaxis_title=self.yaxis_title,
-            )
+        )
         return fig
 
     def t_series(self):
@@ -75,13 +75,27 @@ class Creation_graph:
         return fig
 
     def histogramme(self):
-
         fig = px.histogram(self.df, x=self.label, y=self.value, title=self.title)
+
         fig.update_layout(
             title=self.title,
             xaxis_title=self.xaxis_title,
             yaxis_title=self.yaxis_title,
+
         )
 
+        return fig
 
+    def treemap(self, color_continuous_scale='RdBu'):
+        self.color = color_continuous_scale
+
+        fig = px.treemap(self.df, path=self.label, values=self.value, color=self.value,
+                         color_continuous_scale=self.color)
+
+        fig.update_layout(
+            title=self.title,
+            xaxis_title=self.xaxis_title,
+            yaxis_title=self.yaxis_title,
+
+        )
         return fig

@@ -8,17 +8,29 @@ from djangoCours.Cmc import import_data, transform
 
 def index(request):
     valeur = ["Tokens", "Price", "Market_cap"]
+    config = {'displayModeBar': False}
+
     dj = import_data()
     table = Tableur(dj, valeur,title='Prix et Capitalisations des Cryptomonnaies')
     graph1 = table.tableau()
-    dj = dj[:30]
-    graph2 = Creation_graph(dj, dj['tokens'], dj['Market_cap'], title='Top 30 capitalisations', xaxis_title='Tokens'
-                            , yaxis_title='Market_cap')
-    graph2 = graph2.histogramme()
+
+
+    #graph2 = Creation_graph(dj[:50], dj[:50]['tokens'], dj[:50]['Market_cap'], title='Top 30 capitalisations', xaxis_title='Tokens'
+                            #, yaxis_title='Market_cap')
+    #graph2 = graph2.histogramme()
+
+    graph = Creation_graph(dj[:10], ['tokens'], dj[:10]['Market_cap'], title='Top 10 capitalisations')
+    graph = graph.treemap()
+
+    graph3 = Creation_graph(dj[10:100], ['tokens'], dj[10:100]['Market_cap'], title='Top 100 capitalisations '
+                                                                                    'sans les 10 premiers')
+    graph3 = graph3.treemap()
 
     context1 = {
-        'graph1': graph1.to_html(),
-        'graph2': graph2.to_html()
+        'graph1': graph1.to_html(config,default_width = '100%',default_height='25em'),
+        #'graph2': graph2.to_html(config,default_width = '100%',default_height='20em'),
+        'graph': graph.to_html(config, default_width = '100%',default_height='18em'),
+        'graph3': graph3.to_html(config, default_width='100%', default_height='18em')
     }
 
     if request.GET.keys():
@@ -70,10 +82,10 @@ def index(request):
             context = {
                 "a": a,
                 'total': total,
-                'df': df_img.to_html(),
-                'dt': dt_img.to_html(),
-                'imgdata': uri.to_html(),
-                'imgdata2': uri2.to_html()
+                'df': df_img.to_html(config),
+                'dt': dt_img.to_html(config),
+                'imgdata': uri.to_html(config),
+                'imgdata2': uri2.to_html(config)
             }
 
             return render(request, 'index-blog.html', context=context)

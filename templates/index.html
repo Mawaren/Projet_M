@@ -39,29 +39,36 @@
 
 
          {% if  user.is_authenticated %}
-             <h2>Rentre ton adresse de Wallet</h2>
-            <h4>récupère toutes les informations pour suivre ton investissement</h4>
+             <h4>Rentre ton adresse de Wallet</h4>
+
                <form method="GET">
 
                 <p>
 
-                    <label for="'adresse">adresse</label>
+                    <label for="'adresse"></label>
                     <input id="'adresse" type="'text" name="adresse">
-                    <button type="submit">recupérer les infos</button>
+                    <button type="submit">go</button>
 
                 </p>
                  </form>
 
 
         {% endif %}
-        <ul class = dsd>
+        <ul class = tableaux>
 
-           <li> {{ graph1 | safe }}   </li>
-            <li>  {{ graph2 | safe }}  </li>
+           <li> {{ graph | safe }}   </li>
+            <li>  {{ graph3 | safe }}  </li>
 
         </ul>
         <h3><a href="{% url 'prix'  %}">Actualiser les prix</a></h3>
+
+        <div class = tableau2>
+
+
+        </div>
     </section>
+    {{ graph1 | safe }}
+
 
 </body>
 

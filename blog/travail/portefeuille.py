@@ -146,6 +146,7 @@ class Portefeuille:
     def get_balance(self):
 
         transactions, df = self.df_transactions()
+
         balance = []
         eth = 0
 
@@ -157,6 +158,7 @@ class Portefeuille:
                 counter += 1
                 end = datetime.now()
                 s = (end-start).seconds
+
                 if counter == 5 and s < 1:
                     time.sleep(0.5)
                     counter = 0
@@ -168,6 +170,7 @@ class Portefeuille:
                         .format(key, df['address'][index], self.adresse, value)
 
                     response2 = self.session.get(url2)
+
                     if json.loads(response2.text)["message"] == "OK":
 
                         balance.append(json.loads(response2.text)['result'])
@@ -193,7 +196,6 @@ class Portefeuille:
 
         balance[-6] += float(eth) / (10 ** 18)
         df['balance'] = balance
-
         df = df[df['balance'] > 0]
 
         return transactions, df
@@ -233,6 +235,7 @@ class Portefeuille:
 
         # création de la valeur en USD des tokens que l'on détient puis grâce à cette valeur, de la part du token dans le
         # portefeuille
+
         df.drop_duplicates(subset='tokens', keep='last', inplace=True)
         df['USD_value'] = df['balance'] * df['prices']
 

@@ -8,6 +8,7 @@ from blog.travail.tableau import Tableur, Creation_graph
 def historique(request):
     user = request.user
     qs = historiques.objects.select_related().filter(user_id=user)
+    config = {'displayModeBar': False}
 
     q = qs.values('tokens', 'prices', 'USD_value', 'balance', 'PdP', 'blockchains')
 
@@ -35,10 +36,10 @@ def historique(request):
 
         context = {
             'a': a,
-            'dt': dt.to_html(),
-            'imgdata': uri.to_html(),
+            'dt': dt.to_html(config),
+            'imgdata': uri.to_html(config),
             'total': total,
-            'imgdata2':uri2.to_html()
+            'imgdata2':uri2.to_html(config)
         }
         return render(request, 'historique.html', context=context)
     else:

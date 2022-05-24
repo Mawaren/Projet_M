@@ -66,15 +66,12 @@ a{
 .container {
     text-align: center;
     color: #063970;
-    height: 70vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-
-
-
 
 
 }
@@ -84,9 +81,10 @@ a{
 
 }
 
-.dsd{
+.tableaux{
 
     display: flex;
     justify-content: space-between;
     list-style: None;
     }
+
