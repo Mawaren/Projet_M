@@ -27,27 +27,28 @@ Nous avons utilisé Plotly principalement très utile pour visualiser et manipul
 
 5. Utilisation de l’HTML puis du CSS pour finaliser la mise en page.
 
-Django Tutoriel
 
-Création de l’espace de travail
+
+								Django Tutoriel
+
+1) Création de l’espace de travail
 	
 Le plus simple est d’utiliser Pycharm et de créer un nouveau projet en choisissant Django et un environnement virtuel
 
 
 
-Structure d’un Projet Django
-
-
+2) Structure d’un Projet Django
 
 Il est constitué de plusieurs fichiers mais seulement settings, urls  et templates vont nous intéresser.
 
-Settings.py contient tous les réglages d’origine de Django. Lorsque, il y a des modifications à faire comme changer la langue, ajouter des modèles ou des applications, cela se fait dans settings.
+a) Settings.py contient tous les réglages d’origine de Django. Lorsque, il y a des modifications à faire comme changer la langue, ajouter des modèles ou des applications, cela se fait dans settings.
 
-Urls contient tous les chemins d’urls du site web. A chaque fois qu' un nouveau chemin est créé il faut le rajouter dans ce fichier.
+b) Urls contient tous les chemins d’urls du site web. A chaque fois qu' un nouveau chemin est créé il faut le rajouter dans ce fichier.
 
-Enfin, le dossier templates est constitué des fichiers html.
+c) Enfin, le dossier templates est constitué des fichiers html.
 
-Les commandes principales
+3) Les commandes principales
+
 Pour lancer le serveur local:
 python manage.py runserver 
 
@@ -61,8 +62,6 @@ Pour effectuer les migrations
 Création d’une nouvelle application
 	
 python manage.py startapp aloal
-
-
 
 On remarque que la structure du dossier est similaire à celle de base avec un views.py et models.py en plus
 
